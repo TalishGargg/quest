@@ -75,3 +75,9 @@ variable "key_name" {
 variable "certificate_arn" {
   description = "The ARN of the SSL certificate to use for the Load Balancer."
 }
+
+
+variable "vpc_id" {
+  description = "The ID of the VPC to use"
+  type        = string
+}
