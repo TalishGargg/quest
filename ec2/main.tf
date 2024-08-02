@@ -9,7 +9,7 @@ resource "aws_instance" "quest_instance" {
   subnet_id     = var.public_subnet_id
   associate_public_ip_address = true
 
-  vpc_security_group_ids = [aws_security_group.docker_sg.id, aws_security_group.ssh_sg.id, aws_security_group.http_sg.id]
+  vpc_security_group_ids = [aws_security_group.docker_sg.id, aws_security_group.ssh_quest_sg.id, aws_security_group.http_sg.id]
 
   metadata_options {
     http_endpoint               = "enabled"
@@ -80,16 +80,16 @@ resource "aws_security_group" "docker_sg" {
   }
 }
 
-resource "aws_security_group" "ssh_sg" {
-  name        = "ssh_sg"
-  description = "Allow SSH access"
+resource "aws_security_group" "ssh_quest_sg" {
+  name        = "ssh-quest"
+  description = "Security group for SSH access"
   vpc_id      = var.vpc_id
 
   ingress {
-    from_port   = 22
-    to_port     = 22
+    from_port   = var.ssh_port
+    to_port     = var.ssh_port
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = [var.allowed_ssh_ip]
   }
 
   egress {
@@ -100,7 +100,7 @@ resource "aws_security_group" "ssh_sg" {
   }
 
   tags = {
-    Name = "ssh_sg"
+    Name = "ssh-quest"
   }
 }
 
