@@ -30,4 +30,5 @@ variable "ssh_port" {
 variable "allowed_ssh_ip" {
   description = "Allowed IP for SSH"
   type        = string
+  default     = 0.0.0.0
 }
