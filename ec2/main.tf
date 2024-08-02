@@ -11,6 +11,13 @@ resource "aws_instance" "quest_instance" {
 
   vpc_security_group_ids = [aws_security_group.docker_sg.id, aws_security_group.ssh_sg.id, aws_security_group.http_sg.id]
 
+  metadata_options {
+    http_endpoint               = "enabled"
+    http_tokens                 = "optional"
+    http_put_response_hop_limit = 2
+    http_protocol_ipv6          = "disabled"
+  }
+
   tags = {
     Name = "Quest"
   }
@@ -126,16 +133,4 @@ resource "aws_security_group" "http_sg" {
   tags = {
     Name = "http_sg"
   }
-}
-
-output "instance_id" {
-  value = aws_instance.quest_instance.id
-}
-
-output "public_ip" {
-  value = aws_instance.quest_instance.public_ip
-}
-
-output "private_ip" {
-  value = aws_instance.quest_instance.private_ip
 }
