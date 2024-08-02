@@ -19,14 +19,16 @@ variable "instance_type" {
 variable "key_name" {
   description = "The name of the SSH key pair to use"
   type        = string
+  default     = "quest"
 }
 
 variable "public_subnet_id" {
   description = "The ID of the public subnet to use"
   type        = string
+  default     = "subnet-0b3346acafaa050ce"
 }
 
 variable "vpc_id" {
   description = "The ID of the VPC to use"
-  type        = string
+  type        = "vpc-08e8adcdc71c152a2"
 }
