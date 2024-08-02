@@ -71,6 +71,19 @@ resource "aws_route_table_association" "public_rt_assoc_2" {
   route_table_id = aws_route_table.public_rt.id
 }
 
+resource "aws_route_table" "private_rt" {
+  vpc_id = aws_vpc.main_vpc.id
+
+  tags = {
+    Name = "private_rt"
+  }
+}
+
+resource "aws_route_table_association" "private_rt_assoc" {
+  subnet_id      = aws_subnet.private_subnet.id
+  route_table_id = aws_route_table.private_rt.id
+}
+
 output "vpc_id" {
   value = aws_vpc.main_vpc.id
 }
@@ -89,4 +102,12 @@ output "private_subnet_id" {
 
 output "internet_gateway_id" {
   value = aws_internet_gateway.igw.id
+}
+
+output "public_route_table_id" {
+  value = aws_route_table.public_rt.id
+}
+
+output "private_route_table_id" {
+  value = aws_route_table.private_rt.id
 }
