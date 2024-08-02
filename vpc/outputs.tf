@@ -1,5 +1,5 @@
 output "vpc_id" {
-  value = aws_vpc.main_vpc.id
+  value = aws_vpc.quest_vpc.id
 }
 
 output "public_subnet_1_id" {
@@ -15,13 +15,13 @@ output "private_subnet_id" {
 }
 
 output "internet_gateway_id" {
-  value = aws_internet_gateway.igw.id
+  value = aws_internet_gateway.quest_igw.id
 }
 
 output "public_route_table_id" {
-  value = aws_route_table.public_rt.id
+  value = aws_route_table.public_route.id
 }
 
 output "private_route_table_id" {
-  value = aws_route_table.private_rt.id
+  value = aws_route_table.private_route.id
 }
