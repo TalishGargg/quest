@@ -1,12 +1,3 @@
-terraform {
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = ">= 1.9.3"
-    }
-  }
-}
-
 provider "aws" {
   region = var.aws_region
 }
@@ -16,11 +7,8 @@ resource "aws_lb" "quest_alb" {
   name               = "QuestALB"
   internal           = false
   load_balancer_type = "application"
-  security_groups    = [aws_security_group.http_sg.id]
-  subnets            = [
-    aws_subnet.public_subnet_1.id,
-    aws_subnet.public_subnet_2.id
-  ]
+  security_groups    = [var.http_sg_id]
+  subnets            = var.subnet_ids
 
   tags = {
     Name = "QuestALB"
@@ -58,7 +46,7 @@ resource "aws_lb_target_group" "quest_http" {
   name        = "quest-http"
   port        = 3000
   protocol    = "HTTP"
-  vpc_id      = aws_vpc.quest_vpc.id
+  vpc_id      = var.vpc_id
   target_type = "instance"
 
   health_check {
@@ -80,7 +68,7 @@ resource "aws_lb_target_group" "ecs_quest" {
   name        = "ecs-quest"
   port        = 3000
   protocol    = "HTTP"
-  vpc_id      = aws_vpc.quest_vpc.id
+  vpc_id      = var.vpc_id
   target_type = "ip"
 
   health_check {
@@ -96,5 +84,3 @@ resource "aws_lb_target_group" "ecs_quest" {
     Name = "ecs-quest"
   }
 }
-
-
