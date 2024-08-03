@@ -8,6 +8,6 @@ data "aws_vpc" "selected" {
 data "aws_security_group" "http_sg" {
   filter {
     name   = "tag:Name"
-    values = ["http_sg"]
+    values = ["http"]
   }
 }
