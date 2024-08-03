@@ -46,3 +46,7 @@ data "aws_security_group" "http_sg" {
 data "aws_key_pair" "selected" {
   key_name = "quest"
 }
+
+data "aws_ecr_repository" "quest_app_repo" {
+  name = "quest-app-repo"
+}
