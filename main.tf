@@ -1,16 +1,3 @@
-# Root level main.tf
-
-# Define the required providers and their versions
-terraform {
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = ">= 1.9.3"
-    }
-  }
-}
-
-# Provider configuration
 provider "aws" {
   region = var.aws_region
 }
@@ -51,8 +38,11 @@ module "ec2" {
   ami_id             = var.ami_id
   instance_type      = var.instance_type
   key_name           = var.key_name
-  security_group_ids = [module.security_groups.docker_sg_id, module.security_groups.http_sg_id, module.security_groups.ssh_sg_id]
-  iam_role           = module.iam.ec2_instance_role_name
+  security_group_ids = [
+    module.security_groups.docker_sg_id, 
+    module.security_groups.http_sg_id, 
+    module.security_groups.ssh_sg_id
+  ]
 }
 
 # Module for Load Balancer
@@ -61,18 +51,19 @@ module "load_balancer" {
 
   aws_region        = var.aws_region
   vpc_id            = module.vpc.vpc_id
-  public_subnet_ids = [module.vpc.public_subnet_1_id, module.vpc.public_subnet_2_id]
+  public_subnet_ids = [
+    module.vpc.public_subnet_1_id, 
+    module.vpc.public_subnet_2_id
+  ]
   security_group_id = module.security_groups.http_sg_id
   certificate_arn   = var.certificate_arn
 }
 
-# Module for IAM
-module "iam" {
-  source = "./iam"
-  aws_region = var.aws_region
+# Module for ECS Task Definition
+module "ecs_task_definition" {
+  source            = "./ecs_task_definition"
+  aws_region        = var.aws_region
+  repository_url    = "112774363432.dkr.ecr.us-east-1.amazonaws.com/quest-app-repo"
+  execution_role_arn = "arn:aws:iam::112774363432:role/ecsTaskExecutionRole"
 }
 
-module "ecr" {
-  source = "./ecr"
-  aws_region = var.aws_region
-}
