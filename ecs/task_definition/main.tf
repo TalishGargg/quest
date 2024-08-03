@@ -55,7 +55,5 @@ resource "aws_ecr_repository" "quest_app_repo" {
   }
 }
 
-output "ecr_repository_url" {
-  value = aws_ecr_repository.quest_app_repo.repository_url
-}
+
 
