@@ -1,4 +1,3 @@
-
 # Module for IAM
 module "iam" {
   source = "./iam"
@@ -53,7 +52,7 @@ module "load_balancer" {
 module "ecs_task_definition" {
   source             = "./ecs/task_definition"
   aws_region         = var.aws_region
-  repository_url     = "112774363432.dkr.ecr.us-east-1.amazonaws.com/quest-app-repo"
+  repository_url     = data.aws_ecr_repository.quest_app_repo.repository_url
   execution_role_arn = module.iam.ecs_task_execution_role_arn
 }
 
@@ -70,4 +69,12 @@ module "ecs_cluster_and_service" {
   target_group_arn   = module.load_balancer.target_group_arn
   certificate_arn    = data.aws_acm_certificate.selected.arn
   vpc_id             = data.aws_vpc.quest_vpc.id
+}
+
+# Module for ECR
+module "ecr" {
+  source             = "./ecr"
+  repository_name    = var.repository_name
+  image_tag_mutability = var.image_tag_mutability
+  scan_on_push       = var.scan_on_push
 }
