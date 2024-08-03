@@ -3,16 +3,16 @@ provider "aws" {
 }
 
 resource "aws_instance" "quest_instance" {
-  ami           = var.ami_id
+  ami           = data.aws_ami.amazon_linux.id
   instance_type = var.instance_type
-  key_name      = var.key_name
-  subnet_id     = var.public_subnet_id
+  key_name      = data.aws_key_pair.selected.key_name
+  subnet_id     = data.aws_subnet.public_subnet.id
   associate_public_ip_address = true
 
   vpc_security_group_ids = [
-    aws_security_group.docker_sg.id, 
-    aws_security_group.ssh_quest_sg.id, 
-    aws_security_group.http_sg.id
+    data.aws_security_group.docker_sg.id, 
+    data.aws_security_group.ssh_quest_sg.id, 
+    data.aws_security_group.http_sg.id
   ]
 
   iam_instance_profile = aws_iam_instance_profile.ec2_instance_profile.name
@@ -66,85 +66,6 @@ resource "aws_instance" "quest_instance" {
               sudo docker tag quest-app:latest 112774363432.dkr.ecr.${var.aws_region}.amazonaws.com/quest-app-repo:latest
               sudo docker push 112774363432.dkr.ecr.${var.aws_region}.amazonaws.com/quest-app-repo:latest
               EOF
-}
-
-resource "aws_security_group" "docker_sg" {
-  name        = "docker_sg"
-  description = "Allow access to Docker"
-  vpc_id      = var.vpc_id
-
-  ingress {
-    from_port   = 3000
-    to_port     = 3000
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  tags = {
-    Name = "docker_sg"
-  }
-}
-
-resource "aws_security_group" "ssh_quest_sg" {
-  name        = "ssh-quest"
-  description = "Security group for SSH access"
-  vpc_id      = var.vpc_id
-
-  ingress {
-    from_port   = var.ssh_port
-    to_port     = var.ssh_port
-    protocol    = "tcp"
-    cidr_blocks = [var.allowed_ssh_ip]
-  }
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  tags = {
-    Name = "ssh-quest"
-  }
-}
-
-resource "aws_security_group" "http_sg" {
-  name        = "http_sg"
-  description = "Allow HTTP and HTTPS access"
-  vpc_id      = var.vpc_id
-
-  ingress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  ingress {
-    from_port   = 443
-    to_port     = 443
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  tags = {
-    Name = "http_sg"
-  }
 }
 
 resource "aws_iam_instance_profile" "ec2_instance_profile" {
