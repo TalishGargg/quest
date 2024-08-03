@@ -1,7 +1,3 @@
-provider "aws" {
-  region = var.aws_region
-}
-
 resource "aws_instance" "quest_instance" {
   ami           = data.aws_ami.amazon_linux.id
   instance_type = var.instance_type
@@ -29,8 +25,8 @@ resource "aws_instance" "quest_instance" {
   }
 
   user_data = templatefile("${path.module}/user_data.tpl", {
-    aws_region  = var.aws_region,
-    ecr_repo_url = var.ecr_repo_url
+    aws_region   = var.aws_region,
+    ecr_repo_url = data.aws_ecr_repository.quest_app_repo.repository_url
   })
 }
 
