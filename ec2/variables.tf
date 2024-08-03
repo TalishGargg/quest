@@ -32,3 +32,15 @@ variable "vpc_id" {
   description = "The ID of the VPC to use"
   type        = "vpc-08e8adcdc71c152a2"
 }
+
+variable "ssh_port" {
+  description = "The port for SSH access"
+  type        = number
+  default     = 22
+}
+
+variable "allowed_ssh_ip" {
+  description = "The IP address allowed to SSH into the instance"
+  type        = string
+  default     = "38.15.229.171/32"
+}
