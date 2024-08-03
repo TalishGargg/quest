@@ -69,6 +69,10 @@ module "load_balancer" {
 # Module for IAM
 module "iam" {
   source = "./iam"
+  aws_region = var.aws_region
+}
 
+module "ecr" {
+  source = "./ecr"
   aws_region = var.aws_region
 }
