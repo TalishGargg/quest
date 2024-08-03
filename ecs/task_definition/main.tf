@@ -43,14 +43,3 @@ resource "aws_ecs_task_definition" "quest_task" {
     }
   ])
 }
-
-resource "aws_ecr_repository" "quest_app_repo" {
-  name                 = "quest-app-repo"
-  image_tag_mutability = "MUTABLE"
-  image_scanning_configuration {
-    scan_on_push = true
-  }
-  encryption_configuration {
-    encryption_type = "AES256"
-  }
-}
