@@ -9,7 +9,11 @@ resource "aws_instance" "quest_instance" {
   subnet_id     = var.public_subnet_id
   associate_public_ip_address = true
 
-  vpc_security_group_ids = [aws_security_group.docker_sg.id, aws_security_group.ssh_quest_sg.id, aws_security_group.http_sg.id]
+  vpc_security_group_ids = [
+    aws_security_group.docker_sg.id, 
+    aws_security_group.ssh_quest_sg.id, 
+    aws_security_group.http_sg.id
+  ]
 
   metadata_options {
     http_endpoint               = "enabled"
@@ -50,9 +54,15 @@ resource "aws_instance" "quest_instance" {
               CMD ["npm", "start"]
               EOT
               
-              # Build and run Docker container
+              # Build Docker image
               sudo docker build -t quest-app .
-              sudo docker run -d -p 3000:3000 quest-app
+              
+              # Authenticate Docker to the ECR registry
+              aws ecr get-login-password --region ${var.aws_region} | sudo docker login --username AWS --password-stdin 112774363432.dkr.ecr.${var.aws_region}.amazonaws.com
+              
+              # Tag and push the Docker image to ECR
+              sudo docker tag quest-app:latest 112774363432.dkr.ecr.${var.aws_region}.amazonaws.com/quest-app-repo:latest
+              sudo docker push 112774363432.dkr.ecr.${var.aws_region}.amazonaws.com/quest-app-repo:latest
               EOF
 }
 
