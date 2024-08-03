@@ -10,18 +10,10 @@ output "public_subnet_2_id" {
   value = aws_subnet.public_subnet_2.id
 }
 
-output "private_subnet_id" {
-  value = aws_subnet.private_subnet.id
-}
-
 output "internet_gateway_id" {
   value = aws_internet_gateway.quest_igw.id
 }
 
 output "public_route_table_id" {
   value = aws_route_table.public_route.id
-}
-
-output "private_route_table_id" {
-  value = aws_route_table.private_route.id
 }
