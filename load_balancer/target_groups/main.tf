@@ -6,7 +6,7 @@ resource "aws_lb_target_group" "quest_http" {
   name        = "quest-http"
   port        = var.port
   protocol    = "HTTP"
-  vpc_id      = var.vpc_id
+  vpc_id      = data.aws_vpc.selected.id
   target_type = "instance"
   health_check {
     path                = "/"
@@ -27,7 +27,7 @@ resource "aws_lb_target_group" "ecs_quest" {
   name        = "ecs-quest"
   port        = var.port
   protocol    = "HTTP"
-  vpc_id      = var.vpc_id
+  vpc_id      = data.aws_vpc.selected.id
   target_type = "ip"
   health_check {
     path                = "/"
