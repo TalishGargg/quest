@@ -2,20 +2,18 @@ provider "aws" {
   region = var.aws_region
 }
 
-# Load Balancer
 resource "aws_lb" "quest_alb" {
   name               = "QuestALB"
   internal           = false
   load_balancer_type = "application"
-  security_groups    = [var.http_sg_id]
-  subnets            = var.subnet_ids
+  security_groups    = [data.aws_security_group.http.id]
+  subnets            = data.aws_subnet_ids.public.ids
 
   tags = {
     Name = "QuestALB"
   }
 }
 
-# HTTP Listener
 resource "aws_lb_listener" "http" {
   load_balancer_arn = aws_lb.quest_alb.arn
   port              = 80
@@ -27,13 +25,12 @@ resource "aws_lb_listener" "http" {
   }
 }
 
-# HTTPS Listener
 resource "aws_lb_listener" "https" {
   load_balancer_arn = aws_lb.quest_alb.arn
   port              = 443
   protocol          = "HTTPS"
   ssl_policy        = "ELBSecurityPolicy-TLS-1-2-2017-01"
-  certificate_arn   = var.certificate_arn  # Provide your SSL certificate ARN
+  certificate_arn   = data.aws_acm_certificate.selected.arn
 
   default_action {
     type             = "forward"
@@ -41,18 +38,18 @@ resource "aws_lb_listener" "https" {
   }
 }
 
-# Target Group for EC2
 resource "aws_lb_target_group" "quest_http" {
   name        = "quest-http"
   port        = 3000
   protocol    = "HTTP"
-  vpc_id      = var.vpc_id
+  vpc_id      = data.aws_vpc.selected.id
   target_type = "instance"
 
   health_check {
     interval            = 30
     path                = "/"
     protocol            = "HTTP"
+    matcher             = "200-299"
     timeout             = 5
     healthy_threshold   = 5
     unhealthy_threshold = 2
@@ -63,18 +60,18 @@ resource "aws_lb_target_group" "quest_http" {
   }
 }
 
-# Target Group for ECS
 resource "aws_lb_target_group" "ecs_quest" {
   name        = "ecs-quest"
   port        = 3000
   protocol    = "HTTP"
-  vpc_id      = var.vpc_id
+  vpc_id      = data.aws_vpc.selected.id
   target_type = "ip"
 
   health_check {
     interval            = 30
     path                = "/"
     protocol            = "HTTP"
+    matcher             = "200-299"
     timeout             = 5
     healthy_threshold   = 5
     unhealthy_threshold = 2
