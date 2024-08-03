@@ -40,8 +40,11 @@ data "aws_lb_target_group" "quest_http" {
   }
 }
 
-data "aws_acm_certificate" "cert" {
-  domain = "example.com" # Replace with your domain
+data "aws_acm_certificate" "selected" {
+  filter {
+    name   = "tag:Name"
+    values = ["QuestCert"]
+  }
 }
 
 data "aws_ecs_task_definition" "quest_task" {

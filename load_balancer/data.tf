@@ -17,7 +17,7 @@ data "aws_subnet_ids" "public" {
 data "aws_security_group" "http" {
   filter {
     name   = "tag:Name"
-    values = ["http_sg"]
+    values = ["http"]
   }
 }
 
