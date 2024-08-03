@@ -109,8 +109,3 @@ resource "aws_iam_role_policy_attachment" "ec2_instance_role_policy_attachment" 
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryFullAccess"
 }
 
-# Variable for AWS region
-variable "aws_region" {
-  description = "The AWS region to deploy resources."
-  default     = "us-east-1"
-}
