@@ -15,6 +15,8 @@ resource "aws_instance" "quest_instance" {
     aws_security_group.http_sg.id
   ]
 
+  iam_instance_profile = aws_iam_instance_profile.ec2_instance_profile.name
+
   metadata_options {
     http_endpoint               = "enabled"
     http_tokens                 = "optional"
@@ -143,4 +145,9 @@ resource "aws_security_group" "http_sg" {
   tags = {
     Name = "http_sg"
   }
+}
+
+resource "aws_iam_instance_profile" "ec2_instance_profile" {
+  name = "ec2_instance_profile"
+  role = aws_iam_role.ec2_instance_role.name
 }
