@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 resource "aws_security_group" "docker_sg" {
-  name        = "docker_sg"
+  name        = "docker"
   description = "Allow access to Docker"
   vpc_id      = data.aws_vpc.selected.id
 
@@ -22,7 +22,7 @@ resource "aws_security_group" "docker_sg" {
   }
 
   tags = {
-    Name = "docker_sg"
+    Name = "docker"
   }
 }
 
@@ -51,7 +51,7 @@ resource "aws_security_group" "ssh_quest_sg" {
 }
 
 resource "aws_security_group" "http_sg" {
-  name        = "http_sg"
+  name        = "http"
   description = "Allow HTTP and HTTPS access"
   vpc_id      = data.aws_vpc.selected.id
 
@@ -77,6 +77,6 @@ resource "aws_security_group" "http_sg" {
   }
 
   tags = {
-    Name = "http_sg"
+    Name = "http"
   }
 }

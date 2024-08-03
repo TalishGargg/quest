@@ -25,7 +25,7 @@ data "aws_vpc" "quest_vpc" {
 data "aws_security_group" "docker_sg" {
   filter {
     name   = "tag:Name"
-    values = ["docker_sg"]
+    values = ["docker"]
   }
 }
 
@@ -39,7 +39,7 @@ data "aws_security_group" "ssh_quest_sg" {
 data "aws_security_group" "http_sg" {
   filter {
     name   = "tag:Name"
-    values = ["http_sg"]
+    values = ["http"]
   }
 }
 
