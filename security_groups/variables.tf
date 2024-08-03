@@ -1,8 +1,3 @@
-variable "vpc_id" {
-  description = "The VPC ID"
-  type        = string
-  default     = "vpc-08e8adcdc71c152a2"
-}
 
 variable "docker_port" {
   description = "Port for Docker container"
@@ -31,5 +26,5 @@ variable "ssh_port" {
 variable "allowed_ssh_ip" {
   description = "Allowed IP for SSH"
   type        = string
-  default     = "38.15.229.171/32"
+  default     = "0.0.0.0/0"
 }
