@@ -19,5 +19,5 @@ variable "ssh_port" {
 variable "allowed_ssh_ip" {
   description = "The IP address allowed to SSH into the instance"
   type        = string
-  default     = "38.15.229.171/32"
+  default     = "0.0.0.0/0"
 }
