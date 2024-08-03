@@ -8,12 +8,12 @@ resource "aws_ecs_task_definition" "quest_task" {
   requires_compatibilities = ["FARGATE"]
   cpu                      = "1024"
   memory                   = "3072"
-  execution_role_arn       = var.execution_role_arn
+  execution_role_arn       = data.aws_iam_role.ecs_execution_role.arn
 
   container_definitions = jsonencode([
     {
       name        = "quest-app"
-      image       = "112774363432.dkr.ecr.us-east-1.amazonaws.com/quest-app-repo:latest"
+      image       = "${data.aws_ecr_repository.quest_app_repo.repository_url}:latest"
       cpu         = 0
       portMappings = [
         {
@@ -35,7 +35,7 @@ resource "aws_ecs_task_definition" "quest_task" {
         options = {
           awslogs-group         = "/ecs/quest-app-task"
           awslogs-create-group  = "true"
-          awslogs-region        = "us-east-1"
+          awslogs-region        = var.aws_region
           awslogs-stream-prefix = "ecs"
         }
       }
@@ -54,6 +54,3 @@ resource "aws_ecr_repository" "quest_app_repo" {
     encryption_type = "AES256"
   }
 }
-
-
-
