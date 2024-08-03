@@ -1,6 +1,7 @@
 variable "vpc_id" {
-  description = "vpc-08e8adcdc71c152a2"
+  description = "VPC ID"
   type        = string
+  default     = "vpc-08e8adcdc71c152a2"
 }
 
 variable "port" {
