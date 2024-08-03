@@ -49,7 +49,6 @@ resource "aws_lb_target_group" "quest_http" {
     interval            = 30
     path                = "/"
     protocol            = "HTTP"
-    matcher             = "200-299"
     timeout             = 5
     healthy_threshold   = 5
     unhealthy_threshold = 2
@@ -71,7 +70,6 @@ resource "aws_lb_target_group" "ecs_quest" {
     interval            = 30
     path                = "/"
     protocol            = "HTTP"
-    matcher             = "200-299"
     timeout             = 5
     healthy_threshold   = 5
     unhealthy_threshold = 2
