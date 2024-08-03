@@ -2,17 +2,26 @@ provider "aws" {
   region = var.aws_region
 }
 
-# Module for VPC
-module "vpc" {
-  source = "./vpc"
+# Data sources for existing VPC and subnets
+data "aws_vpc" "quest_vpc" {
+  filter {
+    name   = "tag:Name"
+    values = ["QuestVPC"]
+  }
+}
 
-  aws_region           = var.aws_region
-  vpc_cidr             = var.vpc_cidr
-  public_subnet_1_cidr = var.public_subnet_1_cidr
-  public_subnet_2_cidr = var.public_subnet_2_cidr
-  private_subnet_cidr  = var.private_subnet_cidr
-  az1                  = var.az1
-  az2                  = var.az2
+data "aws_subnet" "public_subnet_1" {
+  filter {
+    name   = "tag:Name"
+    values = ["PublicSubnet"]
+  }
+}
+
+data "aws_subnet" "public_subnet_2" {
+  filter {
+    name   = "tag:Name"
+    values = ["PublicSubnet2"]
+  }
 }
 
 # Module for Security Groups
@@ -20,7 +29,7 @@ module "security_groups" {
   source = "./security_groups"
 
   aws_region     = var.aws_region
-  vpc_id         = module.vpc.vpc_id
+  vpc_id         = data.aws_vpc.quest_vpc.id
   docker_port    = var.docker_port
   http_port      = var.http_port
   https_port     = var.https_port
@@ -33,8 +42,8 @@ module "ec2" {
   source = "./ec2"
 
   aws_region         = var.aws_region
-  vpc_id             = module.vpc.vpc_id
-  public_subnet_id   = module.vpc.public_subnet_1_id
+  vpc_id             = data.aws_vpc.quest_vpc.id
+  public_subnet_id   = data.aws_subnet.public_subnet_1.id
   ami_id             = var.ami_id
   instance_type      = var.instance_type
   key_name           = var.key_name
@@ -50,10 +59,10 @@ module "load_balancer" {
   source = "./load_balancer"
 
   aws_region        = var.aws_region
-  vpc_id            = module.vpc.vpc_id
+  vpc_id            = data.aws_vpc.quest_vpc.id
   public_subnet_ids = [
-    module.vpc.public_subnet_1_id, 
-    module.vpc.public_subnet_2_id
+    data.aws_subnet.public_subnet_1.id, 
+    data.aws_subnet.public_subnet_2.id
   ]
   security_group_id = module.security_groups.http_sg_id
   certificate_arn   = var.certificate_arn
@@ -73,11 +82,11 @@ module "ecs_cluster_and_service" {
   aws_region        = var.aws_region
   task_definition_arn = module.ecs_task_definition.task_definition_arn
   public_subnet_ids = [
-    module.vpc.public_subnet_1_id, 
-    module.vpc.public_subnet_2_id
+    data.aws_subnet.public_subnet_1.id, 
+    data.aws_subnet.public_subnet_2.id
   ]
   security_group_id = module.security_groups.http_sg_id
   target_group_arn  = module.load_balancer.target_group_arn
   certificate_arn   = var.certificate_arn
-  vpc_id            = module.vpc.vpc_id
+  vpc_id            = data.aws_vpc.quest_vpc.id
 }

@@ -12,10 +12,24 @@ data "aws_subnets" "public" {
   }
 }
 
-data "aws_security_group" "quest_sg" {
+data "aws_security_group" "docker_sg" {
   filter {
     name   = "tag:Name"
-    values = ["quest-sg"]
+    values = ["docker_sg"]
+  }
+}
+
+data "aws_security_group" "ssh_quest_sg" {
+  filter {
+    name   = "tag:Name"
+    values = ["ssh-quest"]
+  }
+}
+
+data "aws_security_group" "http_sg" {
+  filter {
+    name   = "tag:Name"
+    values = ["http_sg"]
   }
 }
 

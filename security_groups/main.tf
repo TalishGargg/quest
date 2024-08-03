@@ -1,11 +1,11 @@
 provider "aws" {
-  region = "us-east-1"
+  region = var.aws_region
 }
 
 resource "aws_security_group" "docker_sg" {
-  name        = "docker"
-  description = "Security group for Docker"
-  vpc_id      = var.vpc_id
+  name        = "docker_sg"
+  description = "Allow access to Docker"
+  vpc_id      = data.aws_vpc.selected.id
 
   ingress {
     from_port   = var.docker_port
@@ -20,12 +20,40 @@ resource "aws_security_group" "docker_sg" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
+
+  tags = {
+    Name = "docker_sg"
+  }
+}
+
+resource "aws_security_group" "ssh_quest_sg" {
+  name        = "ssh-quest"
+  description = "Security group for SSH access"
+  vpc_id      = data.aws_vpc.selected.id
+
+  ingress {
+    from_port   = var.ssh_port
+    to_port     = var.ssh_port
+    protocol    = "tcp"
+    cidr_blocks = [var.allowed_ssh_ip]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "ssh-quest"
+  }
 }
 
 resource "aws_security_group" "http_sg" {
-  name        = "http"
-  description = "Security group for HTTP and HTTPS"
-  vpc_id      = var.vpc_id
+  name        = "http_sg"
+  description = "Allow HTTP and HTTPS access"
+  vpc_id      = data.aws_vpc.selected.id
 
   ingress {
     from_port   = var.http_port
@@ -47,24 +75,8 @@ resource "aws_security_group" "http_sg" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
-}
 
-resource "aws_security_group" "ssh_quest_sg" {
-  name        = "ssh-quest"
-  description = "Security group for SSH access"
-  vpc_id      = var.vpc_id
-
-  ingress {
-    from_port   = var.ssh_port
-    to_port     = var.ssh_port
-    protocol    = "tcp"
-    cidr_blocks = [var.allowed_ssh_ip]
-  }
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
+  tags = {
+    Name = "http_sg"
   }
 }
