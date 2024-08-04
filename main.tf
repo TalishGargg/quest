@@ -6,6 +6,10 @@ module "iam" {
   source = "./iam"
 }
 
+module "certificate" {
+  source = "./certificate"
+}
+
 module "security_groups" {
   source          = "./security_groups"
   aws_region      = var.aws_region
