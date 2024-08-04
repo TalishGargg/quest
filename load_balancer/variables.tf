@@ -1,6 +1,5 @@
 variable "aws_region" {
-  description = "The AWS region to deploy resources."
-  type        = string
+  description = "The AWS region to deploy to"
   default     = "us-east-1"
 }
 
@@ -11,21 +10,21 @@ variable "port" {
 }
 
 variable "http_sg_id" {
-  description = "The ID of the HTTP security group."
+  description = "The ID of the HTTP security group"
   type        = string
 }
 
 variable "public_subnet_ids" {
-  description = "List of public subnet IDs."
+  description = "List of public subnet IDs"
   type        = list(string)
 }
 
 variable "vpc_id" {
-  description = "The ID of the VPC."
+  description = "The ID of the VPC"
   type        = string
 }
 
 variable "certificate_arn" {
-  description = "The ARN of the ACM certificate."
+  description = "The ARN of the SSL certificate"
   type        = string
 }
