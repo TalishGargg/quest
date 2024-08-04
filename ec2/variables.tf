@@ -21,3 +21,39 @@ variable "allowed_ssh_ip" {
   type        = string
   default     = "0.0.0.0/0"
 }
+
+variable "ami_id" {
+  description = "The AMI ID for the EC2 instance"
+  type        = string
+}
+
+variable "public_subnet_id" {
+  description = "The ID of the public subnet"
+  type        = string
+}
+
+variable "docker_sg_id" {
+  description = "The ID of the Docker security group"
+  type        = string
+}
+
+variable "ssh_sg_id" {
+  description = "The ID of the SSH security group"
+  type        = string
+}
+
+variable "http_sg_id" {
+  description = "The ID of the HTTP security group"
+  type        = string
+}
+
+variable "key_name" {
+  description = "The name of the SSH key pair"
+  type        = string
+  default     = "quest"
+}
+
+variable "ecr_repo_url" {
+  description = "The URL of the ECR repository"
+  type        = string
+}

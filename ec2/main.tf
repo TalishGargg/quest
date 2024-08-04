@@ -1,14 +1,18 @@
+provider "aws" {
+  region = var.aws_region
+}
+
 resource "aws_instance" "quest_instance" {
-  ami           = data.aws_ami.amazon_linux.id
+  ami           = var.ami_id
   instance_type = var.instance_type
-  key_name      = data.aws_key_pair.selected.key_name
-  subnet_id     = data.aws_subnet.public_subnet.id
+  key_name      = var.key_name
+  subnet_id     = var.public_subnet_id
   associate_public_ip_address = true
 
   vpc_security_group_ids = [
-    data.aws_security_group.docker_sg.id, 
-    data.aws_security_group.ssh_quest_sg.id, 
-    data.aws_security_group.http_sg.id
+    var.docker_sg_id, 
+    var.ssh_sg_id, 
+    var.http_sg_id
   ]
 
   iam_instance_profile = aws_iam_instance_profile.ec2_instance_profile.name
@@ -26,7 +30,7 @@ resource "aws_instance" "quest_instance" {
 
   user_data = templatefile("${path.module}/user_data.tpl", {
     aws_region   = var.aws_region,
-    ecr_repo_url = data.aws_ecr_repository.quest_app_repo.repository_url
+    ecr_repo_url = var.ecr_repo_url
   })
 }
 

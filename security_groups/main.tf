@@ -5,7 +5,7 @@ provider "aws" {
 resource "aws_security_group" "docker_sg" {
   name        = "docker"
   description = "Allow access to Docker"
-  vpc_id      = data.aws_vpc.selected.id
+  vpc_id      = var.vpc_id
 
   ingress {
     from_port   = var.docker_port
@@ -29,7 +29,7 @@ resource "aws_security_group" "docker_sg" {
 resource "aws_security_group" "ssh_quest_sg" {
   name        = "ssh-quest"
   description = "Security group for SSH access"
-  vpc_id      = data.aws_vpc.selected.id
+  vpc_id      = var.vpc_id
 
   ingress {
     from_port   = var.ssh_port
@@ -53,7 +53,7 @@ resource "aws_security_group" "ssh_quest_sg" {
 resource "aws_security_group" "http_sg" {
   name        = "http"
   description = "Allow HTTP and HTTPS access"
-  vpc_id      = data.aws_vpc.selected.id
+  vpc_id      = var.vpc_id
 
   ingress {
     from_port   = var.http_port

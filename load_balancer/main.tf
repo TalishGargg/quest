@@ -6,8 +6,8 @@ resource "aws_lb" "quest_alb" {
   name               = "QuestALB"
   internal           = false
   load_balancer_type = "application"
-  security_groups    = [data.aws_security_group.http.id]
-  subnets            = data.aws_subnet_ids.public.ids
+  security_groups    = [var.http_sg_id]
+  subnets            = var.public_subnet_ids
 
   tags = {
     Name = "QuestALB"
@@ -30,7 +30,7 @@ resource "aws_lb_listener" "https" {
   port              = 443
   protocol          = "HTTPS"
   ssl_policy        = "ELBSecurityPolicy-TLS-1-2-2017-01"
-  certificate_arn   = data.aws_acm_certificate.selected.arn
+  certificate_arn   = var.certificate_arn
 
   default_action {
     type             = "forward"
@@ -42,7 +42,7 @@ resource "aws_lb_target_group" "quest_http" {
   name        = "quest-http"
   port        = 3000
   protocol    = "HTTP"
-  vpc_id      = data.aws_vpc.selected.id
+  vpc_id      = var.vpc_id
   target_type = "instance"
 
   health_check {
@@ -63,7 +63,7 @@ resource "aws_lb_target_group" "ecs_quest" {
   name        = "ecs-quest"
   port        = 3000
   protocol    = "HTTP"
-  vpc_id      = data.aws_vpc.selected.id
+  vpc_id      = var.vpc_id
   target_type = "ip"
 
   health_check {
