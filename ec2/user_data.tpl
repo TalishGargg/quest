@@ -34,12 +34,3 @@ aws ecr get-login-password --region ${aws_region} | sudo docker login --username
 # Tag and push the Docker image to ECR
 sudo docker tag quest-app:latest ${ecr_repo_url}:latest
 sudo docker push ${ecr_repo_url}:latest
-
-# Generate a self-signed certificate
-sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/selfsigned.key -out /etc/ssl/certs/selfsigned.crt -subj "/CN=quest.local"
-
-# Import the certificate into ACM
-CERT_ARN=$(aws acm import-certificate --certificate file:///etc/ssl/certs/selfsigned.crt --private-key file:///etc/ssl/private/selfsigned.key --region ${aws_region} --query CertificateArn --output text)
-
-# Save the CERT_ARN to a file for Terraform to use
-echo ${CERT_ARN} > /home/ec2-user/cert_arn.txt

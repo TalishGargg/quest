@@ -11,5 +11,5 @@ output "private_ip" {
 }
 
 output "certificate_arn" {
-  value = aws_acm_certificate.self_signed_cert.arn
+  value = var.cert_arn
 }

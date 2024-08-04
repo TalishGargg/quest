@@ -30,12 +30,12 @@ resource "aws_instance" "quest_instance" {
 
   user_data = templatefile("${path.module}/user_data.tpl", {
     aws_region   = var.aws_region,
-    ecr_repo_url = var.ecr_repo_url
+    ecr_repo_url = var.ecr_repo_url,
+    cert_arn     = var.cert_arn
   })
 }
 
 resource "aws_iam_instance_profile" "ec2_instance_profile" {
   name = "ec2_instance_profile"
-  role = aws_iam_role.ec2_instance_role.name
+  role = var.ec2_instance_role_name
 }
-
