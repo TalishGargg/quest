@@ -23,7 +23,12 @@ variable "allowed_ssh_ip" {
 }
 
 variable "ami_id" {
-  description = "The AMI ID for the EC2 instance"
+  description = "The ID of the AMI to use for the instance"
+  type        = string
+}
+
+variable "key_name" {
+  description = "The name of the key pair to use for the instance"
   type        = string
 }
 
@@ -47,13 +52,12 @@ variable "http_sg_id" {
   type        = string
 }
 
-variable "key_name" {
-  description = "The name of the SSH key pair"
-  type        = string
-  default     = "quest"
-}
-
 variable "ecr_repo_url" {
   description = "The URL of the ECR repository"
+  type        = string
+}
+
+variable "ec2_instance_role_name" {
+  description = "The name of the EC2 instance role"
   type        = string
 }
