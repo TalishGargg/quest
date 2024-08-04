@@ -21,3 +21,8 @@ variable "allowed_ssh_ip" {
   type        = string
   default     = "0.0.0.0/0"
 }
+
+variable "ecr_repo_url" {
+  description = "The URL of the ECR repository"
+  type        = string
+}
