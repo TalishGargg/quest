@@ -8,12 +8,12 @@ resource "aws_ecs_task_definition" "quest_task" {
   requires_compatibilities = ["FARGATE"]
   cpu                      = "1024"
   memory                   = "3072"
-  execution_role_arn       = data.aws_iam_role.ecs_execution_role.arn
+  execution_role_arn       = var.execution_role_arn
 
   container_definitions = jsonencode([
     {
       name        = "quest-app"
-      image       = "${data.aws_ecr_repository.quest_app_repo.repository_url}:latest"
+      image       = "${var.repository_url}:latest"
       cpu         = 0
       portMappings = [
         {
