@@ -36,5 +36,6 @@ resource "aws_instance" "quest_instance" {
 
 resource "aws_iam_instance_profile" "ec2_instance_profile" {
   name = "ec2_instance_profile"
-  role = var.ec2_instance_role_name
+  role = aws_iam_role.ec2_instance_role.name
 }
+

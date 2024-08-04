@@ -25,7 +25,7 @@ module "load_balancer" {
     module.vpc.public_subnet_1_id, 
     module.vpc.public_subnet_2_id
   ]
-  security_group_id = module.security_groups.http_sg_id
+  http_sg_id        = module.security_groups.http_sg_id
   certificate_arn   = module.ec2.certificate_arn
 }
 
@@ -37,17 +37,17 @@ module "ecs_task_definition" {
 }
 
 module "ecs_cluster_and_service" {
-  source             = "./ecs"
-  aws_region         = var.aws_region
+  source              = "./ecs"
+  aws_region          = var.aws_region
   task_definition_arn = module.ecs_task_definition.task_definition_arn
-  public_subnet_ids  = [
+  public_subnet_ids   = [
     module.vpc.public_subnet_1_id, 
     module.vpc.public_subnet_2_id
   ]
-  http_sg_id  = module.security_groups.http_sg_id
-  target_group_arn   = module.load_balancer.quest_http_target_group_arn
-  certificate_arn    = module.ec2.certificate_arn
-  vpc_id             = module.vpc.vpc_id
+  http_sg_id          = module.security_groups.http_sg_id
+  target_group_arn    = module.load_balancer.quest_http_target_group_arn
+  certificate_arn     = module.ec2.certificate_arn
+  vpc_id              = module.vpc.vpc_id
 }
 
 module "ecr" {
@@ -69,4 +69,5 @@ module "ec2" {
   http_sg_id             = module.security_groups.http_sg_id
   ecr_repo_url           = module.ecr.repository_url
   ec2_instance_role_name = module.iam.ec2_instance_role_name
+  cert_arn               = module.load_balancer.certificate_arn
 }
