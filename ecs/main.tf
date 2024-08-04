@@ -9,18 +9,18 @@ resource "aws_ecs_cluster" "quest_cluster" {
 resource "aws_ecs_service" "quest_service" {
   name            = "quest-task"
   cluster         = aws_ecs_cluster.quest_cluster.id
-  task_definition = data.aws_ecs_task_definition.quest_task.arn
+  task_definition = var.task_definition_arn
   desired_count   = 1
   launch_type     = "FARGATE"
 
   network_configuration {
-    subnets          = data.aws_subnets.public.ids
-    security_groups  = [data.aws_security_group.quest_sg.id]
+    subnets          = var.public_subnet_ids
+    security_groups  = [var.http_sg_id]
     assign_public_ip = true
   }
 
   load_balancer {
-    target_group_arn = data.aws_lb_target_group.quest_http.arn
+    target_group_arn = var.target_group_arn
     container_name   = "quest-app"
     container_port   = 3000
   }
@@ -33,8 +33,8 @@ resource "aws_lb" "quest_alb" {
   name               = "QuestALB"
   internal           = false
   load_balancer_type = "application"
-  security_groups    = [data.aws_security_group.quest_sg.id]
-  subnets            = data.aws_subnets.public.ids
+  security_groups    = [var.http_sg_id]
+  subnets            = var.public_subnet_ids
 
   enable_deletion_protection = false
 
@@ -59,7 +59,7 @@ resource "aws_lb_listener" "https" {
   port              = 443
   protocol          = "HTTPS"
   ssl_policy        = "ELBSecurityPolicy-TLS-1-2-2017-01"
-  certificate_arn   = data.aws_acm_certificate.cert.arn
+  certificate_arn   = var.certificate_arn
 
   default_action {
     type             = "forward"
@@ -71,7 +71,7 @@ resource "aws_lb_target_group" "quest_http" {
   name        = "ecs-quest"
   port        = 3000
   protocol    = "HTTP"
-  vpc_id      = data.aws_vpc.quest_vpc.id
+  vpc_id      = var.vpc_id
   target_type = "ip"
 
   health_check {
