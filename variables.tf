@@ -34,31 +34,3 @@ variable "ami_id" {
   default     = "ami-0ba9883b710b05ac6"  # Replace with your default AMI ID
 }
 
-variable "repository_name" {
-  description = "The name of the ECR repository."
-  type        = string
-  default     = "quest-app-repo"
-}
-
-variable "image_tag_mutability" {
-  description = "The image tag mutability setting for the repository."
-  type        = string
-  default     = "MUTABLE"
-}
-
-variable "scan_on_push" {
-  description = "Whether images are scanned on push."
-  type        = bool
-  default     = true
-}
-
-variable "instance_type" {
-  description = "The instance type to use for the EC2 instance."
-  type        = string
-  default     = "t2.micro"
-}
-
-variable "key_name" {
-  description = "The name of the key pair to use for the EC2 instance."
-  default     = "test"
-}
