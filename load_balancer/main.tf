@@ -20,13 +20,19 @@ resource "aws_lb_listener" "http" {
   protocol          = "HTTP"
 
   default_action {
-    type             = "forward"
-    target_group_arn = aws_lb_target_group.quest_http.arn
-  }
+    type = "forward"
 
-  default_action {
-    type             = "forward"
-    target_group_arn = aws_lb_target_group.ecs_quest.arn
+    forward {
+      target_group {
+        arn    = aws_lb_target_group.quest_http.arn
+        weight = 50
+      }
+
+      target_group {
+        arn    = aws_lb_target_group.ecs_quest.arn
+        weight = 50
+      }
+    }
   }
 }
 
@@ -38,13 +44,19 @@ resource "aws_lb_listener" "https" {
   certificate_arn   = var.certificate_arn
 
   default_action {
-    type             = "forward"
-    target_group_arn = aws_lb_target_group.quest_http.arn
-  }
+    type = "forward"
 
-  default_action {
-    type             = "forward"
-    target_group_arn = aws_lb_target_group.ecs_quest.arn
+    forward {
+      target_group {
+        arn    = aws_lb_target_group.quest_http.arn
+        weight = 50
+      }
+
+      target_group {
+        arn    = aws_lb_target_group.ecs_quest.arn
+        weight = 50
+      }
+    }
   }
 }
 
