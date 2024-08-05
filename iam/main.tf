@@ -109,10 +109,10 @@ resource "aws_iam_role_policy_attachment" "ec2_instance_role_policy_attachment" 
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryFullAccess"
 }
 
-# Attach ACM permissions to EC2 instance role
+# IAM Policy for ACM actions
 resource "aws_iam_policy" "acm_policy" {
   name        = "ACMPolicy"
-  description = "Policy to allow EC2 to import certificates to ACM"
+  description = "Policy to allow ACM actions"
   policy      = jsonencode({
     Version = "2012-10-17",
     Statement = [
@@ -120,7 +120,10 @@ resource "aws_iam_policy" "acm_policy" {
         Effect   = "Allow",
         Action   = [
           "acm:ImportCertificate",
-          "acm:DescribeCertificate"
+          "acm:DescribeCertificate",
+          "acm:DeleteCertificate",
+          "acm:ListCertificates",
+          "acm:GetCertificate"
         ],
         Resource = "*"
       }
