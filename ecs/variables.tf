@@ -19,6 +19,11 @@ variable "http_sg_id" {
   type        = string
 }
 
+variable "docker_sg_id" {
+  description = "ID of the Docker Security group"
+  type = string
+}
+
 variable "target_group_arn" {
   description = "The ARN of the target group"
   type        = string
@@ -35,6 +40,6 @@ variable "vpc_id" {
 }
 
 variable "ecs_quest_target_group_arn" {
-  description = "The ARN of the ECS quest target group"
+  description = "Target group ARN"
   type        = string
 }
