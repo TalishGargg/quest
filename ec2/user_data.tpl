@@ -12,7 +12,7 @@ sudo yum install -y git
 
 # Clone the application repository
 git clone https://github.com/rearc/quest.git /home/ec2-user/quest
-cd /home/ec2-user/quest
+cd /home/ec2-user/
 
 # Create Dockerfile
 cat <<EOT > Dockerfile
