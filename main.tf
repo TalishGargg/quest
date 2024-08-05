@@ -54,7 +54,7 @@ module "ecs_cluster_and_service" {
   target_group_arn    = module.load_balancer.quest_http_target_group_arn
   certificate_arn     = module.certificate.self_signed_cert_arn
   vpc_id              = module.vpc.vpc_id
-  load_balancer_arn   = module.load_balancer.quest_alb_arn
+  ecs_quest_target_group_arn = module.load_balancer.ecs_quest_target_group_arn
 }
 
 module "ecr" {
