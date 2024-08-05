@@ -5,7 +5,7 @@ provider "aws" {
 resource "aws_instance" "quest_instance" {
   ami           = var.ami_id
   instance_type = var.instance_type
-  key_name      = var.key_name
+  key_name      = data.aws_key_pair.existing_key.key_name
   subnet_id     = var.public_subnet_id
   associate_public_ip_address = true
 
