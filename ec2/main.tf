@@ -30,8 +30,7 @@ resource "aws_instance" "quest_instance" {
 
   user_data = templatefile("${path.module}/user_data.tpl", {
     aws_region   = var.aws_region,
-    ecr_repo_url = var.ecr_repo_url,
-    cert_arn     = var.cert_arn
+    ecr_repo_url = var.ecr_repo_url
   })
 }
 
