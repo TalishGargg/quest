@@ -8,7 +8,7 @@ resource "tls_self_signed_cert" "ca_cert" {
   is_ca_certificate = true
 
   subject {
-    common_name  = "example-ca"
+    common_name  = "Rearc Quest"
     organization = "Example CA Organization"
   }
 
@@ -57,4 +57,3 @@ resource "aws_acm_certificate" "self_signed_cert" {
     Name = "self_signed_cert"
   }
 }
-
