@@ -23,6 +23,11 @@ resource "aws_lb_listener" "http" {
     type             = "forward"
     target_group_arn = aws_lb_target_group.quest_http.arn
   }
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.ecs_quest.arn
+  }
 }
 
 resource "aws_lb_listener" "https" {
@@ -35,6 +40,11 @@ resource "aws_lb_listener" "https" {
   default_action {
     type             = "forward"
     target_group_arn = aws_lb_target_group.quest_http.arn
+  }
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.ecs_quest.arn
   }
 }
 
