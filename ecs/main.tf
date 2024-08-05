@@ -29,20 +29,6 @@ resource "aws_ecs_service" "quest_service" {
   deployment_minimum_healthy_percent = 100
 }
 
-resource "aws_lb" "quest_alb" {
-  name               = "QuestALB"
-  internal           = false
-  load_balancer_type = "application"
-  security_groups    = [var.http_sg_id]
-  subnets            = var.public_subnet_ids
-
-  enable_deletion_protection = false
-
-  tags = {
-    Name = "QuestALB"
-  }
-}
-
 resource "aws_lb_listener" "http" {
   load_balancer_arn = aws_lb.quest_alb.arn
   port              = 80
