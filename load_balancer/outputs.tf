@@ -14,3 +14,8 @@ output "ecs_quest_target_group_arn" {
 output "quest_alb_arn" {
   value = aws_lb.quest_alb.arn
 }
+
+output "https_listener_arn" {
+  description = "The ARN of the HTTPS listener"
+  value       = aws_lb_listener.https.arn
+}
