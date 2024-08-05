@@ -45,18 +45,43 @@ The architecture consists of the following components:
     - Users access the Quest application via a DNS name associated with the ALB.
     - The ALB routes the requests to the appropriate ECS tasks running in different availability zones.
 
-## Prerequisites
+## Enterprise Network Improvements
 
-Before you begin, ensure you have the following:
-- AWS account with appropriate permissions
-- AWS CLI installed and configured
-- Terraform installed
-- Git installed
+To enhance the solution for an enterprise network, consider the following improvements tailored to your specific architecture:
 
-## Setup Instructions
+### Storage
 
-### 1. Clone the Repository
+- **S3 (Simple Storage Service)**: 
+  - Use S3 to store static assets such as images, videos, and backups. S3 offers high durability, availability, and scalability.
+  - Implement S3 Lifecycle policies to manage data lifecycle and optimize storage costs by transitioning older data to less expensive storage classes like S3 Glacier.
 
-```bash
-git clone https://github.com/your-username/your-repo-name.git
-cd your-repo-name
+- **RDS (Relational Database Service)**:
+  - Utilize RDS for managed relational databases that the application can use to store structured data. RDS supports multiple database engines like MySQL, PostgreSQL, and SQL Server.
+  - Enable Multi-AZ deployments for high availability and automated backups for data durability. Place RDS instances in private subnets to enhance security.
+
+### Private Subnet
+
+- Create private subnets within your VPC to host backend resources, such as RDS databases and internal services, that do not require direct internet access.
+- Use NAT Gateways in public subnets to allow instances in private subnets to securely access the internet for updates and patches while keeping them inaccessible from the outside world.
+
+### Multi-Account Strategy
+
+- **Development VPC**: 
+  - Isolate development environments in a separate AWS account with its own VPC. This ensures that development activities, such as testing new features and bug fixes, do not impact production resources.
+  
+- **Production VPC**:
+  - Use a separate AWS account for production environments. This strategy enhances security and provides a clear separation of duties between development and production environments.
+  - Implement cross-account IAM roles to enable secure access management between development and production accounts, allowing for controlled access to necessary resources.
+
+### Route 53 and DNS
+
+- Use **Route 53** for domain registration and DNS management. Route 53 offers high availability and scalability for managing DNS records.
+- Configure Route 53 health checks to monitor the health of endpoints and automatically route traffic to healthy instances. This ensures that user requests are always directed to functioning services.
+
+### API Gateway
+
+- Implement **API Gateway** to manage and secure API endpoints. API Gateway can handle traffic management, authorization, and monitoring, providing a robust interface for your application’s backend services.
+- Integrate API Gateway with Lambda for serverless processing or with ECS for containerized applications to handle incoming API requests efficiently and securely.
+
+
+
