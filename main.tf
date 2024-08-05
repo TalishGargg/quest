@@ -55,10 +55,10 @@ module "ecs_cluster_and_service" {
 }
 
 module "ecr" {
-  source             = "./ecr"
-  repository_name    = var.repository_name
+  source               = "./ecr"
+  repository_name      = var.repository_name
   image_tag_mutability = var.image_tag_mutability
-  scan_on_push       = var.scan_on_push
+  scan_on_push         = var.scan_on_push
 }
 
 module "ec2" {
@@ -73,5 +73,4 @@ module "ec2" {
   http_sg_id             = module.security_groups.http_sg_id
   ecr_repo_url           = module.ecr.repository_url
   ec2_instance_role_name = module.iam.ec2_instance_role_name
-  cert_arn               = module.certificate.self_signed_cert_arn
 }
