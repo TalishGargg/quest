@@ -8,6 +8,8 @@ module "iam" {
 
 module "certificate" {
   source = "./certificate"
+  load_balancer_dns_name = module.load_balancer.load_balancer_dns_name
+
 }
 
 module "security_groups" {
