@@ -20,7 +20,7 @@ resource "aws_ecs_service" "quest_service" {
   }
 
   load_balancer {
-    target_group_arn = var.target_group_arn
+    target_group_arn = aws_lb_target_group.ecs_quest.arn  # Reference the correct target group
     container_name   = "quest-app"
     container_port   = 3000
   }
@@ -68,6 +68,27 @@ resource "aws_lb_listener" "https" {
 }
 
 resource "aws_lb_target_group" "quest_http" {
+  name        = "quest-http"
+  port        = 3000
+  protocol    = "HTTP"
+  vpc_id      = var.vpc_id
+  target_type = "instance"
+
+  health_check {
+    interval            = 30
+    path                = "/"
+    protocol            = "HTTP"
+    timeout             = 5
+    healthy_threshold   = 5
+    unhealthy_threshold = 2
+  }
+
+  tags = {
+    Name = "quest-http"
+  }
+}
+
+resource "aws_lb_target_group" "ecs_quest" {
   name        = "ecs-quest"
   port        = 3000
   protocol    = "HTTP"
