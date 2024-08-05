@@ -33,3 +33,8 @@ variable "vpc_id" {
   description = "The ID of the VPC"
   type        = string
 }
+
+variable "ecs_quest_target_group_arn" {
+  description = "The ARN of the ECS quest target group"
+  type        = string
+}
