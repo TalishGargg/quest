@@ -83,5 +83,39 @@ To enhance the solution for an enterprise network, consider the following improv
 - Implement **API Gateway** to manage and secure API endpoints. API Gateway can handle traffic management, authorization, and monitoring, providing a robust interface for your application’s backend services.
 - Integrate API Gateway with Lambda for serverless processing or with ECS for containerized applications to handle incoming API requests efficiently and securely.
 
+## Setup Instructions
 
+### Prerequisites
 
+- An existing AWS account with appropriate permissions.
+- AWS CLI installed and configured.
+- Terraform installed.
+- Git installed.
+- A key pair already exists in your AWS account to be used for the EC2 instance.
+
+### Steps
+
+1. **Clone the Repository**
+
+    ```bash
+    git clone https://github.com/TalishGargg/quest.git
+    cd quest
+    ```
+
+2. **Initialize Terraform**
+
+    ```bash
+    terraform init
+    ```
+
+3. **Apply the Terraform Plan**
+
+    ```bash
+    terraform apply
+    ```
+
+    During the apply process, you will be prompted to enter the `key_name` for the EC2 instance. Provide the name of an existing key pair in your AWS account.
+
+4. **Access the Application**
+
+    After the deployment is complete, you can access the Quest application using the DNS name associated with the Application Load Balancer, which can be found in the AWS Management Console under the EC2 or ECS services.
