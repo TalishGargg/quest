@@ -9,7 +9,3 @@ output "public_ip" {
 output "private_ip" {
   value = aws_instance.quest_instance.private_ip
 }
-
-output "certificate_arn" {
-  value = var.cert_arn
-}
