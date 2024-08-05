@@ -13,11 +13,6 @@ variable "ami_id" {
   type        = string
 }
 
-variable "key_name" {
-  description = "The name of the key pair to use for the instance."
-  type        = string
-}
-
 variable "public_subnet_id" {
   description = "The ID of the public subnet."
   type        = string
@@ -45,5 +40,10 @@ variable "ecr_repo_url" {
 
 variable "ec2_instance_role_name" {
   description = "The name of the EC2 instance role."
+  type        = string
+}
+
+variable "key_name" {
+  description = "The name of the key pair to use for the EC2 instance."
   type        = string
 }
