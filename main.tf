@@ -66,11 +66,11 @@ module "ec2" {
   aws_region             = var.aws_region
   ami_id                 = var.ami_id
   instance_type          = var.instance_type
-  key_name               = var.key_name
   public_subnet_id       = module.vpc.public_subnet_1_id
   docker_sg_id           = module.security_groups.docker_sg_id
   ssh_sg_id              = module.security_groups.ssh_sg_id
   http_sg_id             = module.security_groups.http_sg_id
   ecr_repo_url           = module.ecr.repository_url
   ec2_instance_role_name = module.iam.ec2_instance_role_name
+  key_name               = var.key_name
 }
