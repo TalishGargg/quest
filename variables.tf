@@ -52,14 +52,13 @@ variable "repository_name" {
   default     = "quest-app-repo"
 }
 
-variable "key_name" {
-  description = "The name of the key pair to use for the EC2 instance."
-  type        = string
-  default     = "test"
-}
-
 variable "instance_type" {
   description = "The instance type to use for the EC2 instance."
   type        = string
   default     = "t2.micro"
+}
+
+variable "key_name" {
+  description = "The name of the key pair to use for the EC2 instance."
+  type        = string
 }
