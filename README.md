@@ -45,40 +45,42 @@ The architecture consists of the following components:
     - Users access the Quest application via a DNS name associated with the ALB.
     - The ALB routes the requests to the appropriate ECS tasks running in different availability zones.
 
-## Enterprise Network Improvements
+# Improvements to the Current Architecture/Solution
 
-To enhance the solution for an enterprise network, consider the following improvements tailored to your specific architecture:
+To enhance the solution for an enterprise network, I would consider the following improvements given I had more time:
 
-### Storage
+## Storage
 
-- **S3 (Simple Storage Service)**: 
-  - Use S3 to store static assets such as images, videos, and backups. S3 offers high durability, availability, and scalability.
-  - Implement S3 Lifecycle policies to manage data lifecycle and optimize storage costs by transitioning older data to less expensive storage classes like S3 Glacier.
+### S3 (Simple Storage Service)
+Every app needs a reliable storage solution for files, data, and other assets. I would leverage S3 to store static assets such as images, videos, and backups. S3 offers high durability, availability, and scalability, making it an ideal choice.
 
-- **RDS (Relational Database Service)**:
-  - Utilize RDS for managed relational databases that the application can use to store structured data. RDS supports multiple database engines like MySQL, PostgreSQL, and SQL Server.
-  - Enable Multi-AZ deployments for high availability and automated backups for data durability. Place RDS instances in private subnets to enhance security.
+- **S3 Lifecycle Policies**: To optimize storage costs and manage data lifecycle, I would implement S3 Lifecycle policies. These policies would help transition older data to less expensive storage classes like S3 Glacier.
 
-### Private Subnet
+## Private Subnet
 
-- Create private subnets within your VPC to host backend resources, such as RDS databases and internal services, that do not require direct internet access.
-- Use NAT Gateways in public subnets to allow instances in private subnets to securely access the internet for updates and patches while keeping them inaccessible from the outside world.
+Creating private subnets within the VPC would allow hosting backend resources such as RDS databases and internal services, which do not require direct internet access.
 
-### Multi-Account Strategy
+- **NAT Gateways**: To enable instances in private subnets to securely access the internet for updates and patches, I would use NAT Gateways in public subnets. This approach keeps the backend resources secure and inaccessible from the outside world.
 
-- **Development VPC**: 
-  - Isolate development environments in a separate AWS account with its own VPC. This ensures that development activities, such as testing new features and bug fixes, do not impact production resources.
-  
-- **Production VPC**:
-  - Use a separate AWS account for production environments. This strategy enhances security and provides a clear separation of duties between development and production environments.
-  - Implement cross-account IAM roles to enable secure access management between development and production accounts, allowing for controlled access to necessary resources.
+## Multi-Account Strategy
 
-### Route 53 and DNS
+### Development VPC
+I would isolate development environments in a separate AWS account with its own VPC. This separation ensures that development activities, such as testing new features and bug fixes, do not impact production resources.
 
-- Use **Route 53** for domain registration and DNS management. This ensures that the domains are easy for humans to understand. Route 53 offers high availability and scalability for managing DNS records.
-- Configure Route 53 health checks to monitor the health of endpoints and automatically route traffic to healthy instances. This ensures that user requests are always directed to functioning services.
+### Production VPC
+Using a separate AWS account for production environments enhances security and provides a clear separation of duties between development and production environments.
 
-## Setup Instructions
+- **Cross-Account IAM Roles**: To manage access securely between development and production accounts, I would implement cross-account IAM roles, allowing for controlled access to necessary resources.
+
+## Route 53 and DNS
+
+### Route 53
+**Route 53** would be my choice for domain registration and DNS management. This service ensures that domains are easy to understand and manage. Route 53 offers high availability and scalability for DNS records.
+
+- **Health Checks**: To maintain service reliability, I would configure Route 53 health checks to monitor endpoint health and automatically route traffic to healthy instances. This setup ensures that user requests are always directed to functioning services.
+
+
+## Instructions for Setting up Terraform 
 
 ### Prerequisites
 
