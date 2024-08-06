@@ -1,6 +1,6 @@
 # Quest Application Deployment on AWS using Terraform
 
-This project demonstrates the deployment of the Quest application on AWS using Terraform to manage various AWS services including EC2, ECR, ECS, and ALB. The architecture is designed to ensure high availability, scalability, and efficient deployment of Docker containers.
+This project demonstrates the deployment of the Quest application on AWS using Terraform to manage various AWS services including EC2, ECR, ECS, and ALB. The architecture is designed to ensure high availability, scalability, and efficient deployment of a docker container and hosting the app.
 
 ## Architecture Overview
 
