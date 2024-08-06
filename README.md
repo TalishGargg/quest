@@ -75,13 +75,8 @@ To enhance the solution for an enterprise network, consider the following improv
 
 ### Route 53 and DNS
 
-- Use **Route 53** for domain registration and DNS management. Route 53 offers high availability and scalability for managing DNS records.
+- Use **Route 53** for domain registration and DNS management. This ensures that the domains are easy for humans to understand. Route 53 offers high availability and scalability for managing DNS records.
 - Configure Route 53 health checks to monitor the health of endpoints and automatically route traffic to healthy instances. This ensures that user requests are always directed to functioning services.
-
-### API Gateway
-
-- Implement **API Gateway** to manage and secure API endpoints. API Gateway can handle traffic management, authorization, and monitoring, providing a robust interface for your application’s backend services.
-- Integrate API Gateway with Lambda for serverless processing or with ECS for containerized applications to handle incoming API requests efficiently and securely.
 
 ## Setup Instructions
 
