@@ -45,7 +45,7 @@ The architecture consists of the following components:
     - Users access the Quest application via a DNS name associated with the ALB.
     - The ALB routes the requests to the appropriate ECS tasks running in different availability zones.
 
-## Conclusion
+### Conclusion
 
 The entire setup and deployment process for the Quest application, from VPC creation to handling user requests, is fully automated using Terraform. This ensures a reliable, scalable, and efficient infrastructure for the Quest application.
 
