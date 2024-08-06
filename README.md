@@ -116,4 +116,4 @@ There can also be a staging environment in a separate AWS account. This staging 
 
 4. **Access the Application**
 
-    After the deployment is complete, you can access the Quest application using the DNS name associated with the Application Load Balancer, which can be found in the AWS Management Console under the EC2 or ECS services.
+    After the deployment is complete, you can access the Quest application using the DNS name associated with the Application Load Balancer, which can be found after the terraform script has executed and will be outputted on the screen
