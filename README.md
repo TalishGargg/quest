@@ -38,7 +38,7 @@ The architecture consists of the following components:
     - The tasks are distributed across multiple availability zones for high availability.
 
 6. **ALB (Application Load Balancer)**:
-    - The ALB is configured with target groups pointing to the ECS tasks.
+    - The ALB is configured with tje target group pointing to the ECS tasks.
     - It distributes incoming user requests to the ECS tasks, ensuring load balancing and fault tolerance.
 
 7. **User Requests**:
@@ -53,8 +53,6 @@ To enhance the solution for an enterprise network, I would consider the followin
 
 ### S3 (Simple Storage Service)
 Every app needs a reliable storage solution for files, data, and other assets. I would leverage S3 to store static assets such as images, videos, and backups. S3 offers high durability, availability, and scalability, making it an ideal choice.
-
-- **S3 Lifecycle Policies**: To optimize storage costs and manage data lifecycle, I would implement S3 Lifecycle policies. These policies would help transition older data to less expensive storage classes like S3 Glacier.
 
 ## Private Subnet
 
@@ -71,6 +69,9 @@ I would isolate development environments in a separate AWS account with its own 
 Using a separate AWS account for production environments enhances security and provides a clear separation of duties between development and production environments.
 
 - **Cross-Account IAM Roles**: To manage access securely between development and production accounts, I would implement cross-account IAM roles, allowing for controlled access to necessary resources.
+
+# Note: 
+There can also be a staging environment in a separate AWS account. This staging environment would serve as an intermediary step between development and production, allowing for testing in an environment that closely mirrors production without affecting live resources.
 
 ## Route 53 and DNS
 
