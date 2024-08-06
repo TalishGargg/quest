@@ -31,7 +31,7 @@ variable "allowed_ssh_ip" {
 variable "ami_id" {
   description = "The AMI ID to use for the EC2 instance."
   type        = string
-  default     = "ami-0ba9883b710b05ac6"  # Replace with your default AMI ID
+  default     = "ami-0ba9883b710b05ac6"  
 }
 
 variable "image_tag_mutability" {
