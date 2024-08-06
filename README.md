@@ -11,6 +11,7 @@ The architecture consists of the following components:
 - **ECS (Elastic Container Service)**: Manages the deployment of Docker containers using Fargate.
 - **Fargate**: A serverless compute engine for containers that works with ECS to run containers without managing servers.
 - **ALB (Application Load Balancer)**: Distributes incoming traffic to the ECS tasks running in multiple availability zones.
+- **SSL**: Implemented using a self-signed certificate to enable TLS.
 
 ![AWS Architecture](./quest-app.jpg)
 
@@ -38,7 +39,7 @@ The architecture consists of the following components:
     - The tasks are distributed across multiple availability zones for high availability.
 
 6. **ALB (Application Load Balancer)**:
-    - The ALB is configured with the target group pointing to the ECS tasks.
+    - The ALB is configured with the target group pointing to the ECS tasks and a self signed cert to enable TLS that is already imported in the ACM
     - It distributes incoming user requests to the ECS tasks, ensuring load balancing and fault tolerance.
 
 7. **User Requests**:
