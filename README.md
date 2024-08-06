@@ -70,7 +70,7 @@ Using a separate AWS account for production environments enhances security and p
 
 - **Cross-Account IAM Roles**: To manage access securely between development and production accounts, I would implement cross-account IAM roles, allowing for controlled access to necessary resources.
 
-# Note: 
+#### Note: 
 There can also be a staging environment in a separate AWS account. This staging environment would serve as an intermediary step between development and production, allowing for testing in an environment that closely mirrors production without affecting live resources.
 
 ## Route 53 and DNS
