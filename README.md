@@ -38,7 +38,7 @@ The architecture consists of the following components:
     - The tasks are distributed across multiple availability zones for high availability.
 
 6. **ALB (Application Load Balancer)**:
-    - The ALB is configured with tje target group pointing to the ECS tasks.
+    - The ALB is configured with the target group pointing to the ECS tasks.
     - It distributes incoming user requests to the ECS tasks, ensuring load balancing and fault tolerance.
 
 7. **User Requests**:
